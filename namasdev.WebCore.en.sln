@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.37111.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "namasdev.WebCore.en", "namasdev.WebCore.en\namasdev.WebCore.en.csproj", "{E3A5C580-2A77-3107-B6EB-6D902736743E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "namasdev.WebCore.en.Tests", "namasdev.WebCore.en.Tests\namasdev.WebCore.en.Tests.csproj", "{B1D3F2A4-5C6E-4B7A-8D9F-0E1C2A3B4D5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E3A5C580-2A77-3107-B6EB-6D902736743E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3A5C580-2A77-3107-B6EB-6D902736743E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3A5C580-2A77-3107-B6EB-6D902736743E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1D3F2A4-5C6E-4B7A-8D9F-0E1C2A3B4D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1D3F2A4-5C6E-4B7A-8D9F-0E1C2A3B4D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1D3F2A4-5C6E-4B7A-8D9F-0E1C2A3B4D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1D3F2A4-5C6E-4B7A-8D9F-0E1C2A3B4D5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
