@@ -46,7 +46,7 @@ namespace namasdev.WebCore.Helpers
             string orderName = ORDER_NAME)
             => BuildUrlWithOrder(uri.OriginalString, order, applyOrderDescToFirstElementOnly, orderName);
 
-        public static string BuildOrderExpression(string order, string? currentOrder,
+        private static string BuildOrderExpression(string order, string? currentOrder,
             bool applyOrderDescToFirstElementOnly = false)
         {
             string descExpression = BuildDescExpression(order, applyOrderDescToFirstElementOnly);
@@ -60,13 +60,13 @@ namespace namasdev.WebCore.Helpers
             return order;               // new column
         }
 
-        public static string BuildUrlWithParameter(HttpRequest request, string paramName, string? paramValue)
+        private static string BuildUrlWithParameter(HttpRequest request, string paramName, string? paramValue)
         {
             Validator.ValidateRequiredArgumentAndThrow(request, nameof(request));
             return BuildUrlWithParameter(request.Path + request.QueryString.Value, paramName, paramValue);
         }
 
-        public static string BuildAbsoluteUrl(HttpRequest request, string relativeUrl)
+        private static string BuildAbsoluteUrl(HttpRequest request, string relativeUrl)
             => $"{request.Scheme}://{request.Host}{relativeUrl}";
 
         private static string BuildUrlWithParameter(string url, string paramName, string? paramValue)
