@@ -167,5 +167,126 @@ namespace namasdev.WebCore.Tests.Helpers
             var result = UrlBuilder.BuildUrlWithOrder(uri, "name");
             Assert.Equal("/list?order=name%20desc", result);
         }
+
+        [Fact]
+        public void BuildUrlWithOrder_Uri_DescColumn_RemovesDesc()
+        {
+            var uri = new Uri("/list?order=name%20desc", UriKind.Relative);
+            var result = UrlBuilder.BuildUrlWithOrder(uri, "name");
+            Assert.Equal("/list?order=name", result);
+        }
+
+        // ── BuildUrlWithOrder — preserves other params / multi-column ─────────
+
+        [Fact]
+        public void BuildUrlWithOrder_String_PreservesOtherParams()
+        {
+            var result = UrlBuilder.BuildUrlWithOrder("/list?page=2&order=name", "name");
+            Assert.Equal("/list?page=2&order=name%20desc", result);
+        }
+
+        [Fact]
+        public void BuildUrlWithOrder_String_DifferentColumn_ReplacesOrder()
+        {
+            var result = UrlBuilder.BuildUrlWithOrder("/list?order=name", "date");
+            Assert.Equal("/list?order=date", result);
+        }
+
+        [Fact]
+        public void BuildUrlWithOrder_String_MultiColumn_SameOrder_AppendsDescToAll()
+        {
+            var result = UrlBuilder.BuildUrlWithOrder("/list?order=name,date", "name,date");
+            Assert.Equal("/list?order=name%20desc,date%20desc", result);
+        }
+
+        [Fact]
+        public void BuildUrlWithOrder_String_MultiColumn_ApplyDescToFirstElementOnly_AppendsDescToFirst()
+        {
+            var result = UrlBuilder.BuildUrlWithOrder("/list?order=name,date", "name,date",
+                applyOrderDescToFirstElementOnly: true);
+            Assert.Equal("/list?order=name%20desc,date", result);
+        }
+
+        [Fact]
+        public void BuildUrlWithOrder_String_MultiColumn_DescOrder_RemovesDesc()
+        {
+            var result = UrlBuilder.BuildUrlWithOrder("/list?order=name%20desc,date%20desc", "name,date");
+            Assert.Equal("/list?order=name,date", result);
+        }
+
+        [Fact]
+        public void BuildUrlWithOrder_HttpRequest_CustomOrderName()
+        {
+            var request = BuildRequest("/list", "?sort=name");
+            var result = UrlBuilder.BuildUrlWithOrder(request, "name", orderName: "sort");
+            Assert.Equal("/list?sort=name%20desc", result);
+        }
+
+        [Fact]
+        public void BuildUrlWithOrder_HttpRequest_NullRequest_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => UrlBuilder.BuildUrlWithOrder((HttpRequest)null!, "name"));
+        }
+
+        // ── BuildOrderExpression ──────────────────────────────────────────────
+
+        [Fact]
+        public void BuildOrderExpression_NullCurrentOrder_ReturnsOrder()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name", null);
+            Assert.Equal("name", result);
+        }
+
+        [Fact]
+        public void BuildOrderExpression_DifferentCurrentOrder_ReturnsOrder()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name", "date");
+            Assert.Equal("name", result);
+        }
+
+        [Fact]
+        public void BuildOrderExpression_SameAsCurrentOrder_ReturnsDesc()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name", "name");
+            Assert.Equal("name desc", result);
+        }
+
+        [Fact]
+        public void BuildOrderExpression_CurrentOrderIsDesc_ReturnsAsc()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name", "name desc");
+            Assert.Equal("name", result);
+        }
+
+        [Fact]
+        public void BuildOrderExpression_MultiColumn_SameAsCurrent_AppendsDescToAll()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name,date", "name,date");
+            Assert.Equal("name desc,date desc", result);
+        }
+
+        [Fact]
+        public void BuildOrderExpression_MultiColumn_SameAsCurrent_FirstOnly_AppendsDescToFirst()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name,date", "name,date",
+                applyOrderDescToFirstElementOnly: true);
+            Assert.Equal("name desc,date", result);
+        }
+
+        [Fact]
+        public void BuildOrderExpression_MultiColumn_CurrentIsAllDesc_ReturnsAsc()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name,date", "name desc,date desc");
+            Assert.Equal("name,date", result);
+        }
+
+        [Fact]
+        public void BuildOrderExpression_MultiColumn_CurrentIsFirstOnlyDesc_ReturnsAsc()
+        {
+            var result = UrlBuilder.BuildOrderExpression("name,date", "name desc,date",
+                applyOrderDescToFirstElementOnly: true);
+            Assert.Equal("name,date", result);
+        }
     }
 }
