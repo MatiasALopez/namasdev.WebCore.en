@@ -46,7 +46,7 @@ namespace namasdev.WebCore.Helpers
             string orderName = ORDER_NAME)
             => BuildUrlWithOrder(uri.OriginalString, order, applyOrderDescToFirstElementOnly, orderName);
 
-        private static string BuildOrderExpression(string order, string? currentOrder,
+        public static string BuildOrderExpression(string order, string? currentOrder,
             bool applyOrderDescToFirstElementOnly = false)
         {
             string descExpression = BuildDescExpression(order, applyOrderDescToFirstElementOnly);
